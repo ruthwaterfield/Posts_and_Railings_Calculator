@@ -8,45 +8,42 @@ require 'prfunctions.php';
 ?>
 
 <body>
-<div class="titleBar">
-    <h1>
-        Posts and Railings Calculator
-    </h1>
-</div>
-<form name="inputLength" action="pr.php" method="GET">
-    What is the minimum length for your fence in metres?
-    <input name="minLength" type="number" min="1.7" value="1.7" step="0.1" class="length">
-    <input name="getpr" type="submit" value="Calculate number of posts and railings">
+    <h1> Posts and Railings Calculator </h1>
+    <p> This calculator can either: </p>
+    <ul>
+        <li> Work out how many posts and railings you would need to make a fence of a certain length. </li>
+        <li> How long a fence would be if you used certain numbers of posts and railings. </li>
+    </ul> <br/>
+
+
+<form name="inputLength" method="POST">
+    <b>What is the minimum length for your fence in metres?</b>
+    <input name="minLength" type="number" min="1.7" value="1.7" step="0.1">
+    <input name="getpr" type="submit" value="Calculate number of posts and railings"> <br/><br/>
 </form>
 
-<div class="pr">
     <?php
-    if(isset($_GET['minLength'])) {
-        echo producePRString($_GET['minLength']);
+    if(isset($_POST['minLength'])) {
+        echo producePRString($_POST['minLength']);
     }
     ?>
-</div>
 
-<div class="divider">
-    <h2>OR</h2>
-</div>
+<h2>OR</h2>
 
-<form name="inputpr" action="" method="GET">
-    How many posts are you using?
-    <input name="posts" type="number" value="2" min="2" class="posts">
-    How many railings are you using?
-    <input name="railings" type="number" value="1" min="1" class="railings">
+<form name="inputpr" method="POST">
+    <b>How many posts are you using?</b>
+    <input name="posts" type="number" value="2" min="2">
+    <b>How many railings are you using?</b>
+    <input name="railings" type="number" value="1" min="1">
     <input name="getLength" type="submit" value="Calculate length of fence"> <br/>
-    Note: you will need at least 1 railing and 2 posts, then a post for each further railing.
+    <i>Note: You will need at least 1 railing and 2 posts, and then a post for each further railing.</i> <br/><br/>
 </form>
 
-<div class="length">
-    <?php
-    if(isset($_GET['posts']) && isset($_GET['railings'])) {
-        echo produceLengthString($_GET['posts'], $_GET['railings']);
+ <?php
+    if(isset($_POST['posts']) && isset($_POST['railings'])) {
+        echo produceLengthString($_POST['posts'], $_POST['railings']);
     }
     ?>
-</div>
 
 </body>
 
