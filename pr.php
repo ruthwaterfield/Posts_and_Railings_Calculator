@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
-<header>
+<head>
     <title> Posts and Railings Calculator </title>
-</header>
+</head>
 <?php
 require 'prfunctions.php';
 ?>
@@ -13,18 +13,17 @@ require 'prfunctions.php';
         Posts and Railings Calculator
     </h1>
 </div>
-<form name="inputLength" action="" method="GET">
+<form name="inputLength" action="pr.php" method="GET">
     What is the minimum length for your fence in metres?
-    <input name="minLength" type="number" value="1.7" min="1.7" class="length">
+    <input name="minLength" type="number" min="1.7" value="1.7" step="0.1" class="length">
     <input name="getpr" type="submit" value="Calculate number of posts and railings">
 </form>
 
-<h3> You will need: </h3>
 <div class="pr">
     <?php
-    $postsAndRailings = determinePostsAndRailings($_GET['minLength']);
-    echo $postsAndRailings[0] . 'Posts <br>';
-    echo $postsAndRailings[1] . 'Railings';
+    if(isset($_GET['minLength'])) {
+        echo producePRString($_GET['minLength']);
+    }
     ?>
 </div>
 
@@ -37,14 +36,15 @@ require 'prfunctions.php';
     <input name="posts" type="number" value="2" min="2" class="posts">
     How many railings are you using?
     <input name="railings" type="number" value="1" min="1" class="railings">
+    <input name="getLength" type="submit" value="Calculate length of fence"> <br/>
     Note: you will need at least 1 railing and 2 posts, then a post for each further railing.
-    <input name="getLength" type="submit" value="Calculate length of fence">
 </form>
 
-<h3> Your fence will be: </h3>
 <div class="length">
     <?php
-    echo calculateLength($_GET('posts'), $_GET('railings')) . 'metres long';
+    if(isset($_GET['posts']) && isset($_GET['railings'])) {
+        echo produceLengthString($_GET['posts'], $_GET['railings']);
+    }
     ?>
 </div>
 

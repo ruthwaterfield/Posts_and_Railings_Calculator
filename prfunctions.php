@@ -1,7 +1,7 @@
 <?php
 
-define('POST', 1.5);
-define('RAILING', 0.1);
+define('POST', 0.1);
+define('RAILING', 1.5);
 define('MINPOSTS', 2);
 define('MINRAILINGS', 1);
 /**
@@ -9,7 +9,7 @@ define('MINRAILINGS', 1);
  * @return float The minimum fence length
  */
 function getMinimumLength() : float {
-    return MINPOSTS*POST + MINRAILINGS*RAIlING;
+    return MINPOSTS*POST + MINRAILINGS*RAILING;
 }
 
 
@@ -22,7 +22,7 @@ function getMinimumLength() : float {
  * @return int The length of the fence
  */
 function calculateLength(int $numPosts, int $numRailings) : float {
-    return RAILING*$numRailings + POST*$numPosts;
+    return $numPosts*POST + $numRailings*RAILING;
 }
 
 /**
@@ -56,43 +56,74 @@ function isValidFence(int $numPosts, int $numRailings) : bool {
 /**
  * determinePostsAndRailings works out how many posts and railings you need to make a fence over a required length
  *
- * @param float $requiredLength The mimimum required length
+ * @param float $requiredLength The minimum required length
  * @return array
  */
 function determinePostsAndRailings(float $requiredLength) : array {
     if ($requiredLength <= getMinimumLength()) {
-        return [MINPOSTS, MINRAILINGS];
+        return [MINPOSTS, MINRAILINGS, getMinimumLength()];
     }
     else {
         $numPosts = MINPOSTS;
         $numRailings = MINRAILINGS;
         $fenceLength = getMinimumLength();
-        while ($fenceLength <= $requiredLength) {
+        while ($fenceLength < $requiredLength) {
             $numPosts++;
             $numRailings++;
             $fenceLength = calculateLength($numPosts, $numRailings);
         }
         if(isValidFence($numPosts, $numRailings)) {
-            return [$numPosts, $numRailings];
+            return [$numPosts, $numRailings, $fenceLength];
         }
         else {
-            return [];
+            return ['', '', ''];
         }
     }
 }
 
 /**
- * calculateSurplus gives the length of fence surplus to the requirement
+ * producePRString puts together a string to output given a minimum length of fence.
  *
- * @param int $numPosts The number of posts
- * @param int $numRailings The number of railings
- * @param float $requiredLength The required Length
+ * @param float $requiredLength The minimum length of fence requested
  *
- * @return float The surplus length that will be created
+ * @return string The string giving details of the fence.
  */
-function calculateSurplus(int $numPosts, int $numRailings, float $requiredLength) : float {
-    return calculateLength($numPosts, $numRailings) - $requiredLength;
+function producePRString(float $requiredLength) : string {
+    $result = '';
+
+    $postsAndRailings = determinePostsAndRailings($requiredLength);
+    $posts = $postsAndRailings[0];
+    $railings = $postsAndRailings[1];
+
+    $result .= 'You will need ' . $posts . ' posts and ' . $railings . ' railing(s).<br>';
+
+    $fenceLength = $postsAndRailings[2];
+    $surplus = $fenceLength - $requiredLength;
+
+    $result .= 'This will give a fence of length ' . $fenceLength . ' metres. <br>';
+    $result .= 'This is ' . $surplus . ' metres longer than the minimum you specified (' . $requiredLength . ' metres).';
+
+    return $result;
 }
 
+/**
+ * produceLengthString puts together a string to output given numbers of posts and railings.
+ *
+ * @param int $numPosts The number of posts.
+ * @param int $numRailings The number of railings.
+ *
+ * @return string The string giving details of the fence.
+ */
+function produceLengthString(int $numPosts, int $numRailings) {
+    $result = '';
+
+    $result .= 'By using ' . $numPosts . ' posts and and ' . $numRailings . ' railing(s), ';
+
+    $fenceLength = calculateLength($numPosts, $numRailings);
+
+    $result .= 'you will create a fence that is ' . $fenceLength . ' metres long.';
+
+    return $result;
+}
 
 
