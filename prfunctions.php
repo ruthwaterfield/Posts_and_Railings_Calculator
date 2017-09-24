@@ -95,13 +95,13 @@ function producePRString(float $requiredLength) : string {
     $posts = $postsAndRailings[0];
     $railings = $postsAndRailings[1];
 
-    $result .= 'You will need ' . $posts . ' posts and ' . $railings . ' railing(s).<br>';
+    $result .= 'You would need ' . $posts . ' posts and ' . $railings . ' railing(s).<br>';
 
     $fenceLength = $postsAndRailings[2];
     $surplus = $fenceLength - $requiredLength;
 
-    $result .= 'This will create a ' . $fenceLength . ' metre long fence. ';
-    $result .= 'This is ' . $surplus . ' metres longer than the minimum you specified (' . $requiredLength . ' metres).';
+    $result .= 'This would create a ' . $fenceLength . ' metre long fence. ';
+    $result .= 'This would be ' . $surplus . ' metres longer than the minimum you specified (' . $requiredLength . ' metres).';
 
     return $result;
 }
@@ -118,9 +118,9 @@ function produceLengthString(int $numPosts, int $numRailings) {
     $result = '';
 
     if(isValidFence($numPosts, $numRailings)) {
-        $result .= 'By using ' . $numPosts . ' posts and and ' . $numRailings . ' railing(s), ';
+        $result .= 'By using ' . $numPosts . ' posts and ' . $numRailings . ' railing(s), ';
         $fenceLength = calculateLength($numPosts, $numRailings);
-        $result .= 'you will create a fence that is ' . $fenceLength . ' metres long.';
+        $result .= 'you would create a fence that is ' . $fenceLength . ' metres long.';
     } else {
         $result = 'Sorry, this is not a valid combination of posts and railings.';
     }
